@@ -27,19 +27,19 @@ Welcome to the **Hospital Management System** project! This system is designed t
 ## Preview 📸
 
 ### Admin Login  
-![Admin Login Preview](./assets/admin_login_preview.png)
+![Admin Login Preview](./assets/admin_login_preview.PNG)
 
 ### Menu  
-![Menu Preview](./assets/menu_preview.png)
+![Menu Preview](./assets/menu_preview.PNG)
 
 ### Patients Dashboard  
-![Patients Dashboard Preview](./assets/patients_dashboard_preview.png)
+![Patients Dashboard Preview](./assets/patients_dashboard_preview.PNG)
 
 ### Doctors Dashboard  
-![Doctors Dashboard Preview](./assets/doctors_dashboard_preview.png)
+![Doctors Dashboard Preview](./assets/doctors_dashboard_preview.PNG)
 
 ### Appointments Dashboard  
-![Appointments Dashboard Preview](./assets/appointments_dashboard_preview.png)
+![Appointments Dashboard Preview](./assets/appointments_dashboard_preview.PNG)
 
 ## Getting Started 🚀
 
