@@ -1,8 +1,19 @@
-# Ignore Visual Studio files
 .vs/
-*.vs/
+.vs2019/
+.vs2022/
+*.vs2019/
+*.vs2022/
+
 *.user
 *.userosscache
 *.suo
 *.cache
 *.db
+
+obj/
+bin/
+
+*.log
+*.vsix
+
+
