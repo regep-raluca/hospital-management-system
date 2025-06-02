@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AppointmentsForm));
             this.panelNavbar = new System.Windows.Forms.Panel();
             this.btnLogOut = new System.Windows.Forms.Button();
             this.btnAppointments = new System.Windows.Forms.Button();
@@ -52,6 +51,7 @@
             this.dgvAppointments = new System.Windows.Forms.DataGridView();
             this.cmbStatus = new System.Windows.Forms.ComboBox();
             this.dtpAppointmentDate = new System.Windows.Forms.DateTimePicker();
+            this.btnSearch = new System.Windows.Forms.Button();
             this.panelNavbar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbAppointment)).BeginInit();
             this.panelHeader.SuspendLayout();
@@ -149,7 +149,6 @@
             // 
             // pbAppointment
             // 
-            this.pbAppointment.Image = ((System.Drawing.Image)(resources.GetObject("pbAppointment.Image")));
             this.pbAppointment.Location = new System.Drawing.Point(52, 30);
             this.pbAppointment.Name = "pbAppointment";
             this.pbAppointment.Size = new System.Drawing.Size(120, 70);
@@ -233,7 +232,7 @@
             this.btnDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDelete.Font = new System.Drawing.Font("Segoe UI Semibold", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.btnDelete.ForeColor = System.Drawing.Color.White;
-            this.btnDelete.Location = new System.Drawing.Point(484, 432);
+            this.btnDelete.Location = new System.Drawing.Point(580, 432);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(130, 50);
             this.btnDelete.TabIndex = 14;
@@ -251,7 +250,7 @@
             this.btnModify.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnModify.Font = new System.Drawing.Font("Segoe UI Semibold", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.btnModify.ForeColor = System.Drawing.Color.White;
-            this.btnModify.Location = new System.Drawing.Point(682, 432);
+            this.btnModify.Location = new System.Drawing.Point(730, 432);
             this.btnModify.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnModify.Name = "btnModify";
             this.btnModify.Size = new System.Drawing.Size(130, 50);
@@ -351,12 +350,29 @@
             this.dtpAppointmentDate.Size = new System.Drawing.Size(275, 30);
             this.dtpAppointmentDate.TabIndex = 27;
             // 
+            // btnSearch
+            // 
+            this.btnSearch.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btnSearch.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnSearch.FlatAppearance.BorderSize = 0;
+            this.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSearch.Font = new System.Drawing.Font("Segoe UI Semibold", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.btnSearch.ForeColor = System.Drawing.Color.White;
+            this.btnSearch.Location = new System.Drawing.Point(431, 432);
+            this.btnSearch.Name = "btnSearch";
+            this.btnSearch.Size = new System.Drawing.Size(130, 50);
+            this.btnSearch.TabIndex = 28;
+            this.btnSearch.Text = "Search";
+            this.btnSearch.UseVisualStyleBackColor = false;
+            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
+            // 
             // AppointmentsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.WhiteSmoke;
             this.ClientSize = new System.Drawing.Size(1082, 703);
+            this.Controls.Add(this.btnSearch);
             this.Controls.Add(this.dtpAppointmentDate);
             this.Controls.Add(this.cmbStatus);
             this.Controls.Add(this.dgvAppointments);
@@ -415,5 +431,6 @@
         private System.Windows.Forms.DataGridView dgvAppointments;
         private System.Windows.Forms.ComboBox cmbStatus;
         private System.Windows.Forms.DateTimePicker dtpAppointmentDate;
+        private System.Windows.Forms.Button btnSearch;
     }
 }

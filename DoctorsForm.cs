@@ -1,24 +1,19 @@
 ﻿// --------------------------------------------------------
 // DoctorsForm.cs
 // Form for managing doctors in the Hospital Management System.
-// Allows adding, editing, displaying, and deleting doctors.
+// Allows adding, editing, displaying, deleting, and searching doctors.
 // Includes navigation to Patients and Appointments forms.
 // --------------------------------------------------------
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace HospitalManagementSystem.Forms
 {
-    // The form used to manage doctor records in the system
     public partial class DoctorsForm : Form
     {
         public DoctorsForm()
@@ -26,14 +21,12 @@ namespace HospitalManagementSystem.Forms
             InitializeComponent();
         }
 
-        // Loads the doctor list when the form is opened
         private void DoctorsForm_Load(object sender, EventArgs e)
         {
-            dgvDoctors.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill; // asigură afișare completă
+            dgvDoctors.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             DisplayDoctors();
         }
 
-        // Retrieves and displays all doctors from the database
         private void DisplayDoctors()
         {
             try
@@ -52,23 +45,38 @@ namespace HospitalManagementSystem.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error loading doctors: " + ex.Message);
+                MessageBox.Show("Error loading doctors: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        // Validates input fields for doctors
         private bool ValidateDoctorFields()
         {
+            string romanianLettersPattern = @"^[a-zA-ZăâîșțĂÂÎȘȚ\- ]+$";
+
             if (string.IsNullOrWhiteSpace(txtName.Text))
             {
-                MessageBox.Show("Please enter the doctor's name.");
+                MessageBox.Show("Please enter the doctor's name.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtName.Focus();
+                return false;
+            }
+
+            if (!Regex.IsMatch(txtName.Text, romanianLettersPattern))
+            {
+                MessageBox.Show("Name can only contain English letters, spaces and hyphens.", "Invalid Name", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtName.Focus();
                 return false;
             }
 
             if (string.IsNullOrWhiteSpace(txtSpecialty.Text))
             {
-                MessageBox.Show("Please enter the doctor's specialty.");
+                MessageBox.Show("Please enter the doctor's specialty.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtSpecialty.Focus();
+                return false;
+            }
+
+            if (!Regex.IsMatch(txtSpecialty.Text, romanianLettersPattern))
+            {
+                MessageBox.Show("Specialty can only contain English letters, spaces and hyphens.", "Invalid Specialty", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtSpecialty.Focus();
                 return false;
             }
@@ -76,7 +84,6 @@ namespace HospitalManagementSystem.Forms
             return true;
         }
 
-        // Adds a new doctor to the database
         private void btnAdd_Click(object sender, EventArgs e)
         {
             if (!ValidateDoctorFields())
@@ -100,16 +107,15 @@ namespace HospitalManagementSystem.Forms
                         cmd.ExecuteNonQuery();
                     }
                 }
-                MessageBox.Show("The doctor was added successfully!");
+                MessageBox.Show("Doctor added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 DisplayDoctors();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: " + ex.Message);
+                MessageBox.Show("Error adding doctor: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        // Deletes the selected doctor from the database
         private void btnDelete_Click(object sender, EventArgs e)
         {
             if (dgvDoctors.SelectedRows.Count > 0)
@@ -129,21 +135,20 @@ namespace HospitalManagementSystem.Forms
                             cmd.ExecuteNonQuery();
                         }
                     }
-                    MessageBox.Show("Doctor deleted successfully!");
+                    MessageBox.Show("Doctor deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     DisplayDoctors();
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error: " + ex.Message);
+                    MessageBox.Show("Error deleting doctor: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             else
             {
-                MessageBox.Show("Please select a doctor to delete.");
+                MessageBox.Show("Please select a doctor to delete.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
-        // Modifies the selected doctor's data
         private void btnModify_Click(object sender, EventArgs e)
         {
             if (dgvDoctors.SelectedRows.Count > 0)
@@ -172,22 +177,20 @@ namespace HospitalManagementSystem.Forms
                             cmd.ExecuteNonQuery();
                         }
                     }
-                    MessageBox.Show("Doctor updated successfully.");
+                    MessageBox.Show("Doctor updated successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     DisplayDoctors();
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error: " + ex.Message);
+                    MessageBox.Show("Error updating doctor: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             else
             {
-                MessageBox.Show("Please select a doctor to modify.");
-                return;
+                MessageBox.Show("Please select a doctor to modify.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
-        // Fills textboxes when a row in the grid is clicked
         private void dgvDoctors_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
@@ -199,7 +202,6 @@ namespace HospitalManagementSystem.Forms
             }
         }
 
-        // Opens the Patients form and hides the Appointments Dashboard
         private void btnPatients_Click(object sender, EventArgs e)
         {
             PatientsForm patientsForm = new PatientsForm();
@@ -207,13 +209,11 @@ namespace HospitalManagementSystem.Forms
             this.Hide();
         }
 
-        // Displays a message indicating that the Doctors Dashboard is active
         private void btnDoctors_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("This is the Doctors Dashboard.");
+            MessageBox.Show("This is the Doctors Dashboard.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        // Opens the Appointments form and hides the Appointments Dashboard
         private void btnAppointments_Click(object sender, EventArgs e)
         {
             AppointmentsForm appointmentsForm = new AppointmentsForm();
@@ -221,7 +221,6 @@ namespace HospitalManagementSystem.Forms
             this.Hide();
         }
 
-        // Handles user logout and returns to the Login screen
         private void btnLogOut_Click(object sender, EventArgs e)
         {
             LoginForm loginForm = new LoginForm();
@@ -229,103 +228,135 @@ namespace HospitalManagementSystem.Forms
             this.Close();
         }
 
-        // Highlight button on mouse hover - Patients
         private void btnPatients_MouseEnter(object sender, EventArgs e)
         {
             btnPatients.BackColor = Color.LightSteelBlue;
             btnPatients.ForeColor = Color.White;
         }
 
-        // Reset button color on mouse leave - Patients
         private void btnPatients_MouseLeave(object sender, EventArgs e)
         {
             btnPatients.BackColor = Color.MidnightBlue;
             btnPatients.ForeColor = Color.White;
         }
 
-        // Highlight button on mouse hover - Doctors
         private void btnDoctors_MouseEnter(object sender, EventArgs e)
         {
             btnDoctors.BackColor = Color.LightSteelBlue;
             btnDoctors.ForeColor = Color.White;
         }
 
-        // Reset button color on mouse leave - Doctors
         private void btnDoctors_MouseLeave(object sender, EventArgs e)
         {
             btnDoctors.BackColor = Color.MidnightBlue;
             btnDoctors.ForeColor = Color.White;
         }
 
-        // Highlight button on mouse hover - Appointments
         private void btnAppointments_MouseEnter(object sender, EventArgs e)
         {
             btnAppointments.BackColor = Color.LightSteelBlue;
             btnAppointments.ForeColor = Color.White;
         }
 
-        // Reset button color on mouse leave - Appointments
         private void btnAppointments_MouseLeave(object sender, EventArgs e)
         {
             btnAppointments.BackColor = Color.MidnightBlue;
             btnAppointments.ForeColor = Color.White;
         }
 
-        // Highlight button on mouse hover - Logout
         private void btnLogOut_MouseEnter(object sender, EventArgs e)
         {
             btnLogOut.BackColor = Color.LightSteelBlue;
             btnLogOut.ForeColor = Color.White;
         }
 
-        // Reset button color on mouse leave - Logout
         private void btnLogOut_MouseLeave(object sender, EventArgs e)
         {
             btnLogOut.BackColor = Color.MidnightBlue;
             btnLogOut.ForeColor = Color.White;
         }
 
-        // Changes add button color on mouse hover
         private void btnAdd_MouseEnter(object sender, EventArgs e)
         {
             btnAdd.BackColor = Color.LightSteelBlue;
             btnAdd.ForeColor = Color.White;
         }
 
-        // Restores add button color when mouse leaves
         private void btnAdd_MouseLeave(object sender, EventArgs e)
         {
             btnAdd.BackColor = Color.RoyalBlue;
             btnAdd.ForeColor = Color.White;
         }
 
-        // Changes delete button color on mouse hover
         private void btnDelete_MouseEnter(object sender, EventArgs e)
         {
             btnDelete.BackColor = Color.LightSteelBlue;
             btnDelete.ForeColor = Color.White;
         }
 
-        // Restores delete button color when mouse leaves
         private void btnDelete_MouseLeave(object sender, EventArgs e)
         {
             btnDelete.BackColor = Color.RoyalBlue;
             btnDelete.ForeColor = Color.White;
         }
 
-        // Changes modify button color on mouse hover
         private void btnModify_MouseEnter(object sender, EventArgs e)
         {
             btnModify.BackColor = Color.LightSteelBlue;
             btnModify.ForeColor = Color.White;
         }
 
-        // Restores modify button color when mouse leaves
         private void btnModify_MouseLeave(object sender, EventArgs e)
         {
             btnModify.BackColor = Color.RoyalBlue;
             btnModify.ForeColor = Color.White;
         }
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            string name = txtName.Text.Trim();
+            string specialty = txtSpecialty.Text.Trim();
+
+            if (string.IsNullOrEmpty(name) && string.IsNullOrEmpty(specialty))
+            {
+                MessageBox.Show("Please fill in at least one field: Name or Specialty.", "Invalid Search", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                using (SqlConnection conn = DatabaseConnection.GetConnection())
+                {
+                    conn.Open();
+
+                    string query = "SELECT * FROM Doctors WHERE 1=1";
+
+                    if (!string.IsNullOrEmpty(name))
+                        query += " AND Name LIKE @Name";
+
+                    if (!string.IsNullOrEmpty(specialty))
+                        query += " AND Specialty LIKE @Specialty";
+
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        if (!string.IsNullOrEmpty(name))
+                            cmd.Parameters.AddWithValue("@Name", "%" + name + "%");
+
+                        if (!string.IsNullOrEmpty(specialty))
+                            cmd.Parameters.AddWithValue("@Specialty", "%" + specialty + "%");
+
+                        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                        DataTable dt = new DataTable();
+                        adapter.Fill(dt);
+
+                        dgvDoctors.DataSource = dt;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Search error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }
-

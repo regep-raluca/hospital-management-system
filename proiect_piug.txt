@@ -1,0 +1,8 @@
+proiect cyberbullying
+fronted: react
+backend: phyton
+- pagina principala unde se vorbeste despre 
+bullying + scopul site ului
+- formular pt introducerea unui link youtube
+- pagina de rezultate: afisare comentarii toxice
++ statistici
